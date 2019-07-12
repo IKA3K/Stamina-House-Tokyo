@@ -1,5 +1,9 @@
 # NOT Simply Love (StepMania 5)
 
+If you're looking for Simply Love, the Stepmania 5 theme that is widely used, this isn't it. This is a mashup of weird ideas used on an SMX AIO cab, and for people using 16:9 mode Stepmania.
+
+For Simply Love, please visit https://github.com/dguzek/Simply-Love-SM5 or click the link near "forked from..." above.
+
 ## What's different
 
 0. Not meant for playing on anything other than 16:9. No really, don't try it.

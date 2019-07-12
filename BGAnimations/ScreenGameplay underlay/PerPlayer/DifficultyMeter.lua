@@ -2,9 +2,15 @@ local player = ...
 
 return Def.ActorFrame{
 	InitCommand=function(self)
-		self:xy( WideScale(27,84), 56 )
+		local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
+		local scroll = playeroptions:UsingReverse() and "Reverse" or "Standard"
+		local ypos = {
+			Standard = 56,
+			Reverse = 445,
+		} 
+		self:xy( 27, ypos[scroll] )
 		if player == PLAYER_2 then
-			self:x( _screen.w-WideScale(27,84) )
+			self:x( _screen.w-27 )
 		end
 
 		if SL.Global.GameMode == "StomperZ" then

@@ -11,8 +11,10 @@ end
 
 
 local PlayerState = GAMESTATE:GetPlayerState(player)
-local streams, prev_measure, MeasureCounterBMT
+local streams, prev_measure, MeasureCounterBMT, RemainingCounterBMT
 local current_count, stream_index, current_stream_length
+local remaining_stream  -- Number of measures remaining
+local total_stream  -- Number of measures total
 
 -- We'll want to reset each of these values for each new song in the case of CourseMode
 local InitializeMeasureCounter = function()
@@ -23,62 +25,116 @@ local InitializeMeasureCounter = function()
 	stream_index = 1
 	current_stream_length = 0
 	prev_measure = 0
+	remaining_stream = 0
+
+	-- Use NPS per measure 
+	for i, stream in ipairs(streams.Measures) do
+		if not stream.isBreak then
+			remaining_stream = remaining_stream + (stream.streamEnd - stream.streamStart)
+		end
+	end
+	total_stream = remaining_stream
 end
 
-local GetTextForMeasure = function(current_measure, Measures, stream_index)
-	-- Validate indices
-	if Measures[stream_index] == nil then return "" end
+local GetTextForMeasure = function(measure, current_measure)
+	local streamStart = measure.streamStart
+	local streamEnd = measure.streamEnd
+	local current_stream_length = streamEnd - streamStart
+	local current_count = math.floor(current_measure - streamStart) + 1
 
-	local streamStart = Measures[stream_index].streamStart
-	local streamEnd = Measures[stream_index].streamEnd
-	if current_measure < streamStart then return "" end
-	if current_measure > streamEnd then return "" end
+	if measure.isBreak then
+		-- NOTE: We let the lowest value be 0. This means that e.g.,
+		-- for an 8 measure break, we will display the numbers 7 -> 0
+		local measures_left = current_stream_length - current_count
+
+		if measures_left >= (current_stream_length-1) or measures_left <= 0 then
+			text = ""
+		else
+			text = "(" .. measures_left .. ")"
+		end
+	else
+		text = tostring(current_count .. "/" .. current_stream_length)
+	end
+	return text
+end
+
+local GetTextForCurrentMeasure = function(current_measure, Measures, stream_index)
+	-- Validate indices
+	local this_measure_obj = Measures[stream_index]
+	if this_measure_obj == nil then return "", "" end
+
+	local remainingStreamText = "(" .. remaining_stream .. "/" .. total_stream .. ")"
+
+	local streamStart = this_measure_obj.streamStart
+	local streamEnd = this_measure_obj.streamEnd
+	if current_measure < streamStart then return "", remainingStreamText end
+	if current_measure > streamEnd then return "", remainingStreamText end
+
+	local text = GetTextForMeasure(this_measure_obj, current_measure)
+	local next_measure_obj = Measures[stream_index + 1]
+	if text and text ~= "" and next_measure_obj ~= nil then
+		local next_measure_obj_length = next_measure_obj.streamEnd - next_measure_obj.streamStart
+		local next_text = "" .. next_measure_obj_length
+		if next_measure_obj.isBreak then
+			next_text = "(" .. next_measure_obj_length .. ")"
+		end
+		text = text .. " => " .. next_text
+	end
+
+	-- TODO rename this function to GetTextAndStyle because this styles the text...
+	if Measures[stream_index].isBreak then
+		-- diffuse break counter to be Still Grey, just like Pendulum intended
+		MeasureCounterBMT:diffuse(0.5,0.5,0.5,1)
+	else
+		MeasureCounterBMT:diffuse(1,1,1,1)
+	end
 
 	local current_stream_length = streamEnd - streamStart
 	local current_count = math.floor(current_measure - streamStart) + 1
 
-	local text = ""
-	if Measures[stream_index].isBreak then
-		if mods.HideRestCounts == false then
-			-- NOTE: We let the lowest value be 0. This means that e.g.,
-			-- for an 8 measure break, we will display the numbers 7 -> 0
-			local measures_left = current_stream_length - current_count
-
-			if measures_left >= (current_stream_length-1) or measures_left <= 0 then
-				text = ""
-			else
-				text = "(" .. measures_left .. ")"
-			end
-			-- diffuse break counter to be Still Grey, just like Pendulum intended
-			MeasureCounterBMT:diffuse(0.5,0.5,0.5,1)
-		end
-	else
-		text = tostring(current_count .. "/" .. current_stream_length)
-		MeasureCounterBMT:diffuse(1,1,1,1)
-	end
-	return text, current_count > current_stream_length
+	return text, remainingStreamText, current_count > current_stream_length
 end
 
 local Update = function(self, delta)
 
 	if not streams.Measures then return end
 
+	-- Note this is a floating point value...
 	local curr_measure = (math.floor(PlayerState:GetSongPosition():GetSongBeatVisible()))/4
 
 	-- if a new measure has occurred
 	if curr_measure > prev_measure then
-
 		prev_measure = curr_measure
-		local text, is_end = GetTextForMeasure(curr_measure, streams.Measures, stream_index)
+		local curr_measure_obj = streams.Measures[stream_index]
+		local text, remaining_text, is_end = GetTextForCurrentMeasure(curr_measure, streams.Measures, stream_index)
+		-- Subtract from the total stream counter if we've made forward progress
+		-- We need to do this first, or the update will be late.
+		local progress_into_stream = 0
+		if curr_measure_obj then
+			progress_into_stream = curr_measure - curr_measure_obj.streamStart
+		end
 
+		-- I have no idea why we need to update on beat 3 but this works...
+		local is_measure_boundary = progress_into_stream > 0 and progress_into_stream % 1 == 0.75
+
+		-- If stream_index is 1 and we're not yet in the first measure, blank out the remaining text.
+		if stream_index == 1 and progress_into_stream < 1 then
+			remaining_text = ""
+		end 
+
+		if curr_measure_obj and not curr_measure_obj.isBreak and is_measure_boundary then
+			remaining_stream = remaining_stream - 1
+		end
 		-- If we're still within the current section
 		if not is_end then
 			MeasureCounterBMT:settext(text)
+			RemainingCounterBMT:settext(remaining_text)
 		-- In a new section, we should check if curr_measure overlaps with it
 		else
 			stream_index = stream_index + 1
-			text, is_end = GetTextForMeasure(curr_measure, streams.Measures, stream_index)
+			text, remaining_text, is_end = GetTextForCurrentMeasure(curr_measure, streams.Measures, stream_index)
 			MeasureCounterBMT:settext(text)
+			RemainingCounterBMT:settext(remaining_text)
 		end
 	end
 end
@@ -100,17 +156,53 @@ af[#af+1] = LoadFont("_wendy small")..{
 	InitCommand=function(self)
 		MeasureCounterBMT = self
 
+		local xPosition = 0
+		if player == PLAYER_1 then
+			xPosition = GetNotefieldX(player) - 70
+		else
+			xPosition = GetNotefieldX(player) + 70
+		end
+
 		self:zoom(0.35):shadowlength(1):horizalign(center)
-		self:xy( GetNotefieldX(player), _screen.cy )
+		self:xy( xPosition, _screen.cy )
 
 		if mods.MeasureCounterLeft then
 			local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
 			local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
-			self:x( GetNotefieldX(player) - (width/NumColumns) )
+			self:x( xPosition - (width/NumColumns) )
 		end
 
 		if mods.MeasureCounterUp then
 			self:y(_screen.cy - 55)
+		end
+	end
+}
+
+-- Remaining stream counter
+af[#af+1] = LoadFont("_wendy small")..{
+	InitCommand=function(self)
+		RemainingCounterBMT = self
+		RemainingCounterBMT:diffuse(0.5,0.5,0.5,1)
+
+		local xPosition = 0
+		local yPosition = _screen.cy + 25  -- Lower on screen
+		if player == PLAYER_1 then
+			xPosition = GetNotefieldX(player) - 70
+		else
+			xPosition = GetNotefieldX(player) + 70
+		end
+
+		self:zoom(0.35):shadowlength(1):horizalign(center)
+		self:xy( xPosition, yPosition )
+
+		if mods.MeasureCounterLeft then
+			local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
+			local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
+			self:x( xPosition - (width/NumColumns) )
+		end
+
+		if mods.MeasureCounterUp then
+			self:y(yPosition - 55)
 		end
 	end
 }

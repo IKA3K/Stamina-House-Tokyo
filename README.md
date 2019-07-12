@@ -16,8 +16,9 @@ The file [Languages/en.ini](https://github.com/IKA3K/Stamina-House-Tokyo/blob/ma
 3. Density graph scrolls showing 2 minutes worth of info
 4. Step stats available on the ScreenSelectMusic showing simple breakdown if it doesn't fit, full breakdown (minus the first/last breaks)
 
-## TODOs
+## TODOs/Known Bugs
 
+0. Measure counter while in-song doesn't know about 1 measure streams, and computes the total stream incorrectly.
 1. Make 21:9 and other funky offsets work
 2. Add more spaces for longer bois (so you can get to 100000 combo without worrying about spacing)
 3. Add live stats on timing for single player play

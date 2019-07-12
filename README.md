@@ -4,6 +4,10 @@ If you're looking for Simply Love, the Stepmania 5 theme that is widely used, th
 
 For Simply Love, please visit https://github.com/dguzek/Simply-Love-SM5 or click the link near "forked from..." above.
 
+## ! IMPORTANT !
+
+The file [Languages/en.ini](https://github.com/IKA3K/Stamina-House-Tokyo/blob/master/Languages/en.ini#L100) has the string "Stamina House Tokyo" in it for the HeaderText for ScreenSelectMusic. You may want to change this to the text for your own setup.
+
 ## What's different
 
 0. Not meant for playing on anything other than 16:9. No really, don't try it.

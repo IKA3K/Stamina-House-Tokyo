@@ -2,10 +2,11 @@ local player = ...
 local pn = ToEnumShortString(player)
 
 -- if the conditions aren't right, don't bother
-if SL[pn].ActiveModifiers.DataVisualizations ~= "Step Statistics"
+-- SL[pn].ActiveModifiers.DataVisualizations ~= "Step Statistics"
 -- or GAMESTATE:GetCurrentStyle():GetName() ~= "single"
-or SL.Global.GameMode == "Casual"
-or (PREFSMAN:GetPreference("Center1Player") and not IsUsingWideScreen())
+if SL.Global.GameMode == "Casual"
+-- or SL.Global.GameMode == "Casual"
+ or (PREFSMAN:GetPreference("Center1Player") and not IsUsingWideScreen())
 then
 	return
 end

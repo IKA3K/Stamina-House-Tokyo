@@ -32,7 +32,8 @@ return function(SongNumberInCourse)
 			if SL[pn].Streams.SongDir ~= song_dir or SL[pn].Streams.StepsType ~= step_type or SL[pn].Streams.Difficulty ~= difficulty then
 
 				-- ...then parse the simfile, given the current parameters
-				SL[pn].Streams.Measures = GetStreams(song_dir, steps_type, difficulty, notes_per_measure, threshold_to_be_stream)
+				-- IKA3K - make last parameter nil so we that we can see 1 measure streams
+				SL[pn].Streams.Measures = GetStreams(song_dir, steps_type, difficulty, notes_per_measure, nil) -- threshold_to_be_stream
 				-- and set these so we can check again next time.
 				SL[pn].Streams.SongDir = song_dir
 				SL[pn].Streams.StepsType = steps_type

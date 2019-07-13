@@ -166,11 +166,13 @@ local function getStreamSequences(streamMeasures, measureSequenceThreshold, tota
 
 	-- First add an initial break if it's larger than measureSequenceThreshold
 	-- Also predefine streamEnd, or this won't work for single stream seqeuences to start.
+	-- This needs to be the measure after the break ends, or it'll be off by one on ONLY
+	-- the first stream :loam:
 	if(#streamMeasures > 0) then
 		local breakStart = 0
 		local k, v = next(streamMeasures) -- first element of a table
 		local breakEnd = streamMeasures[k] - 1
-		streamEnd = breakEnd
+		streamEnd = breakEnd + 1
 		if (breakEnd - breakStart >= minimumBreakSequence) then
 			table.insert(streamSequences,
 				{streamStart=breakStart, streamEnd=breakEnd, isBreak=true})
@@ -204,10 +206,11 @@ local function getStreamSequences(streamMeasures, measureSequenceThreshold, tota
 					{streamStart=breakStart, streamEnd=breakEnd, isBreak=true})
 			end
 			counter = 1
-			-- Need to modify streamEnd to nextVal + 1 just in case there's another 1 measure stream 
+			-- Need to modify streamEnd to nextVal just in case there's another 1 measure stream 
 			-- coming up after a minimum length break (e.g. 1 (1) 1); the streamEnd gets messed up
-			-- and reports the 2nd one as starting on the first's end measure.
-			streamEnd = nextVal + 1	
+			-- and reports the 2nd one as starting on the first's end measure; nextVal contains the
+			-- next stream so we're good.
+			streamEnd = nextVal	
 		end
 	end
 

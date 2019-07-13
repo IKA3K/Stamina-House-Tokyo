@@ -136,12 +136,13 @@ local function GetStreamBreakdownShort(SongDir, StepsType, Difficulty)
 	
 	streams = GetTrimmedStreamBreakdown(streams, 20) -- Maximum 20 entries
 	local lastStream
+	local streamText = {}
 	for i, stream in ipairs(streams) do
 		local streamLength = stream.streamEnd - stream.streamStart	
 		local streamString = tostring(streamLength)
 		if stream.isBreak then
 			local breakString =  "(" .. streamString .. ")"
-			streams[i] = breakString
+			streamText[i] = breakString
 		elseif stream.combined then
 			local stars = "****"
 			if stream.streamCount / streamLength > 0.75 then
@@ -152,17 +153,24 @@ local function GetStreamBreakdownShort(SongDir, StepsType, Difficulty)
 				stars = "***"
 			end
 			if ismarathon then
-				streams[i] = tostring(stream.streamCount) .. stars
+				streamText[i] = tostring(stream.streamCount) .. stars
 			else
-				streams[i] = streamLength .. stars
+				streamText[i] = streamLength .. stars
 			end
 		else
-			streams[i] = streamLength
+			streamText[i] = streamLength
 		end
 		lastStream = stream
 	end
 
-	return table.concat(streams, " "), ismarathon
+	-- Print a debug string showing the measure breakdown in case something is funky
+	-- local measure_breakdown = ""
+	-- for i, stream in ipairs(streams) do
+	--	measure_breakdown = measure_breakdown .. "[" .. tostring(stream.streamStart) .. "/" .. tostring(stream.streamEnd) .. "]"
+	-- end
+	-- SCREENMAN:SystemMessage(measure_breakdown)
+
+	return table.concat(streamText, " "), ismarathon
 end
 
 -- TODO make this global

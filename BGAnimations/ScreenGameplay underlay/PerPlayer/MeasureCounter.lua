@@ -40,7 +40,7 @@ local GetTextForMeasure = function(measure, current_measure)
 	local streamStart = measure.streamStart
 	local streamEnd = measure.streamEnd
 	local current_stream_length = streamEnd - streamStart
-	local current_count = math.floor(current_measure - streamStart) + 1
+	local current_count = current_stream_length == 1 and 1 or math.floor(current_measure - streamStart) + 1
 
 	if measure.isBreak then
 		-- NOTE: We let the lowest value be 0. This means that e.g.,
@@ -67,8 +67,15 @@ local GetTextForCurrentMeasure = function(current_measure, Measures, stream_inde
 
 	local streamStart = this_measure_obj.streamStart
 	local streamEnd = this_measure_obj.streamEnd
-	if current_measure < streamStart then return "", remainingStreamText end
-	if current_measure > streamEnd then return "", remainingStreamText end
+	-- Debugging text (this is shown in case it returns early)
+	-- SCREENMAN:SystemMessage("measure " .. tostring(current_measure) .. " stream start: " .. tostring(streamStart) .. " stream end " .. tostring(streamEnd) .. " remainingText " .. remainingStreamText)
+	if current_measure < streamStart then
+		return "", remainingStreamText, false
+	end
+	-- Define end as also matching the end of the stream; this case care of 1 measure cases.
+	if current_measure > streamEnd then
+		 return "", remainingStreamText, true
+	end
 
 	local text = GetTextForMeasure(this_measure_obj, current_measure)
 	local next_measure_obj = Measures[stream_index + 1]
@@ -92,7 +99,10 @@ local GetTextForCurrentMeasure = function(current_measure, Measures, stream_inde
 	local current_stream_length = streamEnd - streamStart
 	local current_count = math.floor(current_measure - streamStart) + 1
 
-	return text, remainingStreamText, current_count > current_stream_length
+	local is_end = current_count > current_stream_length
+	-- Debugging text
+	-- SCREENMAN:SystemMessage("measure " .. tostring(current_measure) .. " stream start: " .. tostring(streamStart) .. " stream end " .. tostring(streamEnd) .. " text " .. text .. " remaining text " .. remainingStreamText .. " is_end " .. tostring(is_end))
+	return text, remainingStreamText, is_end 
 end
 
 local Update = function(self, delta)

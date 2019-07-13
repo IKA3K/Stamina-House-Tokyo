@@ -26,9 +26,9 @@ for i, label in ipairs(TapNoteScores.Names) do
 
 		af[#af+1] = LoadFont("_miso")..{
 			Text=label:upper(),
-			InitCommand=cmd(zoom,1.0; horizalign,center; maxwidth, 80 ),
+			InitCommand=cmd(zoom,0.833; horizalign,right; maxwidth, 72 ),
 			BeginCommand=function(self)
-				self:x(0):y((i-1)*22.5 - 75)
+				self:x(80):y((i-1)*28 - 226)
 					:diffuse( SL.JudgmentColors[SL.Global.GameMode][i] )
 			end
 		}
@@ -36,14 +36,14 @@ for i, label in ipairs(TapNoteScores.Names) do
 end
 
 -- labels: holds, mines, rolls
---for i, label in ipairs(RadarCategories) do
---	af[#af+1] = LoadFont("_miso")..{
---		Text=label,
---		InitCommand=cmd(zoom,0.600; horizalign,right ),
---		BeginCommand=function(self)
---			self:x(0):y((i-1)*28 + 40)
---		end
---	}
---end
+for i, label in ipairs(RadarCategories) do
+	af[#af+1] = LoadFont("_miso")..{
+		Text=label,
+		InitCommand=cmd(zoom,0.833; horizalign,right ),
+		BeginCommand=function(self)
+			self:x(-94):y((i-1)*28 - 143)
+		end
+	}
+end
 
 return af

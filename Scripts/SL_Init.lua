@@ -88,10 +88,6 @@ local GlobalDefaults = {
 				ScreenNameEntry = ThemePrefs.Get("ScreenNameEntryMenuTimer"),
 			}
 			self.TimeAtSessionStart = nil
-                        -- Background
-                        self.BackgroundZoom = 1.0
-                        self.BackgroundXOffset = 0
-                        self.BackgroundYOffset = 0
 		end,
 
 		-- These values outside initialize() won't be reset each game cycle,

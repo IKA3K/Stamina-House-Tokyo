@@ -6,15 +6,13 @@ return Def.ActorFrame{
 		InitCommand=cmd(xy, _screen.cx, 20 ),
 
 		Def.SongMeterDisplay{
-			-- StreamWidth=_screen.w/2-10,
-			StreamWidth=_screen.w/2-10 + WideScale(0, (84 - 27) * 2),
+			StreamWidth=_screen.w/2-10,
 			Stream=Def.Quad{ 
 				InitCommand=cmd(zoomy,18; diffuse,DifficultyIndexColor(2))
 			}
 		},
 
-		-- Border( _screen.w/2-10, 22, 2 ),
-		Border( _screen.w/2-10 + WideScale(0, (84 - 27) * 2), 22, 2 ),
+		Border( _screen.w/2-10, 22, 2 ),
 	},
 
 	-- Song Title

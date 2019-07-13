@@ -56,7 +56,7 @@ else
 	af[#af+1] = Def.Quad{
 		InitCommand=function(self)
 			self:vertalign(top)
-				:zoomto( 2*_screen.w/5, _screen.h-80 )
+				:zoomto( _screen.w/2, _screen.h-80 )
 
 			if player == PLAYER_1 then
 				self:horizalign(left):diffuse(0.2,0.2,0.2,1):faderight(0.8):xy(0, 80)

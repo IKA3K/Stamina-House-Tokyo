@@ -167,24 +167,20 @@ af[#af+1] = LoadFont("_wendy small")..{
 		MeasureCounterBMT = self
 
 		local xPosition = 0
+		local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
+		local is_reverse = playeroptions:UsingReverse()
+		-- Permanently enable recentering
+		local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
+		local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
+		local xOffset = (width/NumColumns)
 		if player == PLAYER_1 then
-			xPosition = GetNotefieldX(player) - 70
+			xPosition = GetNotefieldX(player) - xOffset
 		else
-			xPosition = GetNotefieldX(player) + 70
+			xPosition = GetNotefieldX(player) + xOffset
 		end
 
 		self:zoom(0.35):shadowlength(1):horizalign(center)
 		self:xy( xPosition, _screen.cy )
-
-		if mods.MeasureCounterLeft then
-			local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
-			local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
-			self:x( xPosition - (width/NumColumns) )
-		end
-
-		if mods.MeasureCounterUp then
-			self:y(_screen.cy - 55)
-		end
 	end
 }
 
@@ -195,25 +191,23 @@ af[#af+1] = LoadFont("_wendy small")..{
 		RemainingCounterBMT:diffuse(0.5,0.5,0.5,1)
 
 		local xPosition = 0
-		local yPosition = _screen.cy + 25  -- Lower on screen
+		local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
+		local is_reverse = playeroptions:UsingReverse()
+		local yPosition = _screen.cy + 25 * (is_reverse and -1 or 1)   -- Lower on screen (higher if using reverse)
+		-- Permanently enable recentering
+		local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
+		local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
+		local xOffset = (width/NumColumns)
 		if player == PLAYER_1 then
-			xPosition = GetNotefieldX(player) - 70
+			xPosition = GetNotefieldX(player) - xOffset
 		else
-			xPosition = GetNotefieldX(player) + 70
+			xPosition = GetNotefieldX(player) + xOffset
 		end
-
+		
+		-- Permanently enable offset
+		-- local yOffset = 55 * (is_reverse and -1 or 1) 
 		self:zoom(0.35):shadowlength(1):horizalign(center)
 		self:xy( xPosition, yPosition )
-
-		if mods.MeasureCounterLeft then
-			local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
-			local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
-			self:x( xPosition - (width/NumColumns) )
-		end
-
-		if mods.MeasureCounterUp then
-			self:y(yPosition - 55)
-		end
 	end
 }
 

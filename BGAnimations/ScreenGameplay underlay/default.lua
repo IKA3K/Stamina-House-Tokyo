@@ -22,8 +22,12 @@ t[#t+1] = LoadActor("./Shared/SongInfoBar.lua") -- title and progress bar
 
 -- per-player UI elements
 for player in ivalues(Players) do
-	t[#t+1] = LoadActor("./PerPlayer/UpperNPSGraph.lua", player)
+	--local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
+	-- if playeroptions:UsingReverse() then
+	--	t[#t+1] = LoadActor("./PerPlayer/Score.lua", player)
+	-- end
 	t[#t+1] = LoadActor("./PerPlayer/Score.lua", player)
+	t[#t+1] = LoadActor("./PerPlayer/DensityGraph.lua", player)
 	t[#t+1] = LoadActor("./PerPlayer/DifficultyMeter.lua", player)
 
 	t[#t+1] = LoadActor("./PerPlayer/LifeMeter/default.lua", player)
@@ -40,5 +44,8 @@ t[#t+1] = LoadActor("./Shared/BPMDisplay.lua")
 if GAMESTATE:IsPlayerEnabled(PLAYER_1) and GAMESTATE:IsPlayerEnabled(PLAYER_2) then
 	t[#t+1] = LoadActor("./Shared/WhoIsCurrentlyWinning.lua")
 end
+
+-- this doesn't work in marathon mode
+-- t[#t+1] = LoadActor("./Shared/SyncStartScores.lua")
 
 return t

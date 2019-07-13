@@ -1,112 +1,24 @@
-# Simply Love (StepMania 5)
+# NOT Simply Love (StepMania 5)
 
-![Arrow Logo](http://i.imgur.com/FyeguCQ.png)
-======================
+If you're looking for Simply Love, the Stepmania 5 theme that is widely used, this isn't it. This is a mashup of weird ideas used on an SMX AIO cab, and for people using 16:9 mode Stepmania. Use at your own risk. ¯\\_(ツ)_/¯
 
-This is a recreation of hurtpiggypig's Simply Love SM3.95 theme made to now run in StepMania 5.
+For Simply Love, please visit https://github.com/dguzek/Simply-Love-SM5 or click the link near "forked from..." above.
 
-I use the word "recreation" (as opposed to "port") because virtually no code was brought over from the SM3.95 counterpart.  My general process was to visually inspect the original SM3.95 theme, and recreate it screen by screen in SM5.
+## ! IMPORTANT !
 
-For information on the original StepMania 3.95 version of Simply Love, check here:
-https://www.youtube.com/watch?v=OtcWy5m6-CQ
+The file [Languages/en.ini](https://github.com/IKA3K/Stamina-House-Tokyo/blob/master/Languages/en.ini#L100) has the string "Stamina House Tokyo" in it for the HeaderText for ScreenSelectMusic. You may want to change this to the text for your own setup.
 
+## What's different
 
+0. Not meant for playing on anything other than 16:9. No really, don't try it.
+1. Backgrounds are scaled to fit above the step stats. And hey, it works with two players at the same time!
+2. Step statistics should never really be turned off. I'll disable that at some point.
+3. Density graph scrolls showing 2 minutes worth of info
+4. Step stats available on the ScreenSelectMusic showing simple breakdown if it doesn't fit, full breakdown (minus the first/last breaks)
 
-## Requirements
+## TODOs/Known Bugs
 
-You'll need to install [StepMania 5.0.12](https://github.com/stepmania/stepmania/releases/tag/v5.0.12) or [StepMania 5.1 beta](https://github.com/stepmania/stepmania/releases/tag/v5.1.0-b2) to use this theme.
-
-Older versions of StepMania are not compatible.  StepMania 5.2 is not compatible.
-
-#### Troubleshooting StepMania
-
-If you are having trouble installing StepMania or getting it to run on your computer, please refer to StepMania's [FAQ](http://www.stepmania.com/faq/).  Additionally, you may find these links helpful for your given operating system:
-
-  * **Windows** -  [This issue on GitHub](https://github.com/stepmania/stepmania-site/issues/64) provides links to the needed DirectX and VS2013 redistributable packages.
-  * **macOS** - If you are unable to open the dmg installer with an error like "No mountable file systems", you'll need to [update your copy of macOS](https://github.com/stepmania/stepmania/issues/1726) for the time being. If you are encountering the "No NoteSkins found" error, [this wiki page](https://github.com/stepmania/stepmania/wiki/Installing-on-macOS) provides a means of resolving it on your computer until it is properly fixed upstream.
-  * **Linux** - It is more or less assumed that you will build your own executables if you are using Linux.  StepMania's GitHub wiki provides both a [list of dependencies](https://github.com/stepmania/stepmania/wiki/Linux-Dependencies) and some [instructions on compiling](https://github.com/stepmania/stepmania/wiki/Compiling-StepMania).
-
-
-## Installation
-
-Head to the [Releases Page](https://github.com/dguzek/Simply-Love-SM5/releases) to download the most recent formal release of Simply Love.  If you opt to download directly from the *master* branch instead, you may get new features but also newer bugs.
-
-To install this theme, unzip it and move the resulting directory inside the *Themes* folder in your [StepMania user data directory](https://github.com/stepmania/stepmania/wiki/User-Data-Locations).
-
-## Screenshots
-
-Visit my imgur album for screenshots of this theme in action: [http://imgur.com/a/56wDq](http://imgur.com/a/56wDq)
-
-## New Features
-
-Or, *things I've added that were not present in the original Simply Love for StepMania 3.95.*
-
-#### New GameModes
-
-* [Casual](http://imgur.com/zLLhDWQh.png) – Intended for novice players; restricted song list, no failing, no LifeMeter, simplified UI, etc.  You can read more about customizing what content appears in Casual Mode [here](./CasualMode-README.md).
-* [Competitive](http://imgur.com/HS03hhJh.png) – Play using the *In the Groove* standards established over a decade ago
-* [ECFA](http://imgur.com/teZtlbih.png) – Similar to Competitive, but features tighter TimingWindows; can be used to qualify for ECFA events
-* [StomperZ](http://imgur.com/dOKTpVbh.png) – Emulates a very small set of features from Rhythm Horizon gameplay
-
-#### New Auxiliary Features
-
-  * [Live Step Statistics](https://imgur.com/w4ddgSK.png) – This optional gameplay overlay tracks how many of each judgment have been earned in real time and features a notes-per-second density histogram.  This can make livestreaming more interesting for viewers.
-  * [Judgment Scatter Plot](https://imgur.com/JK5Li2w.png) – ScreenEvaluation now features a judgment scatterplot where notes hit early are rendered "below the middle" and notes hit late are rendered "above the middle." This can offer insight into how a player performed over time. Did the player gradually hit notes earlier and earlier as the song wore on? This feature can help players answer such questions.
-  * [Judgment Density Histogram](https://imgur.com/FAuieAf.png) – The evaluation screen also now features a histogram that will help players assess whether they are more often hitting notes early or late.
-  * [Per-Column Judgment Breakdown](https://imgur.com/ErcvncM.png)
-  * [IIDX-inspired Pacemaker](http://imgur.com/NwN8Fnbh.png)
-  * [QR Code Integration with GrooveStats](https://imgur.com/olgg4hS.png) – Evaluation now displays a QR code that will upload the score you just earned to your [GrooveStats](http://groovestats.com/) account.
-  * improved MeasureCounter – Stepcharts can now be parsed ahead of time, so it is no longer necessary to play through a stepchart at least once to acquire a stream breakdown.
-
-#### New Aesthetic Features
- * [RainbowMode](http://i.imgur.com/aKsvrcch.png) – add some color to Simply Love!
- * [NoteSkin and Judgment previews](https://imgur.com/QUSqxr8.png) in the modifier menu
- * improved widescreen support
-
-#### New Conveniences for Public Machine Operators
-  * [MenuTimer Options](http://imgur.com/DPffsdQh.png) – Set the MenuTimers for various screens.
-  * [Long/Marathon Song Cutoffs](http://i.imgur.com/fzNJDVDh.png) – The cutoffs for songs that cost 2 and 3 rounds can be set in *Arcade Options*.
-
-#### Language Support
-
-Simply Love has full support for:
-
-  * English
-  * Español
-  * Français
-  * Português Brasileiro
-
-The current language can be changed in Simply Love under *System Options*.  You may need to restart StepMania immediately after changing the language for all in-game text to be properly translated.
-
-## Missing Features
-Or, *things that were in the original Simply Love for StepMania 3.95 that are not present here.*
-
-  * ghost data
-  * timed sets
-
-
----
-
-## FAQ
-
-#### Why are my high scores ranking out of order?
-You need to set `PercentageScoring=1` in your Preferences.ini file.  Please note that you must quit StepMania before opening and editing Preferences.ini.
-
-Your existing scores will remain ranked out of order, but all scores going forward after making this change will be ranked correctly.
-
-#### Where is my Preferences.ini file?
-See the [Manually Changing Preferences](https://github.com/stepmania/stepmania/wiki/Manually-Changing-Preferences) page on StepMania's GitHub Wiki.
-
-#### How can I get more songs to show up in Casual Mode?
-Please refer to the [Casual Mode README](./CasualMode-README.md).
-
----
-
-## Acknowledgements
-
-* [hurtpiggypig](http://www.shirtpiggypig.com/) -- Lara designed the original Simply Love theme for StepMania 3.95.
-* [djpohly](https://github.com/djpohly) -- djpohly was a constant source of knowledge and help during the months I spent porting this.
-* [sigatrev](https://github.com/sigatrev) -- Matt helped Lara implement some of the more technical aspects of the original theme and was always available to respond to my questions.
-* [freem](https://github.com/freem) -- I used AJ's StepMania 5 theme, [Moonlight](http://ssc.ajworld.net/?p=moonlight), as the foundation/starting point for this port.  While virtually none of Moonlight is left in Simply Love at this point, it helped immensely in providing the examples I needed when getting started.
-* [kyzentun](https://github.com/kyzentun) -- kyzentun answered many of my theming questions on IRC and even went out of his way to fix source-related issues that helped me out along my way.
-* the SM5 dev-team and IRC-frequenters -- Theming in SM5 is significantly easier than it is in 3.95.  Thank you, for that.  Thank you, shakesoda, Midiman, wolfman2000, et al!
+0. Measure counter while in-song doesn't know about 1 measure streams, and computes the total stream incorrectly.
+1. Make 21:9 and other funky offsets work
+2. Add more spaces for longer bois (so you can get to 100000 combo without worrying about spacing)
+3. Add live stats on timing for single player play

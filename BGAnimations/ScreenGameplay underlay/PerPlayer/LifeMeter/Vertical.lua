@@ -1,10 +1,8 @@
 local player = ...
 
-local width = 12
+local width = 16
 local height = 250
-local _x = _screen.w/2 - width - 120 -- * WideScale(1, 3.5)
-
--- TODO make this better for player2
+local _x = width * WideScale(1, 3.5)
 
 if GAMESTATE:GetCurrentStyle():GetStyleType() == "StyleType_OnePlayerTwoSides" then
 	_x = width * WideScale(2,8)

@@ -26,12 +26,6 @@ return LoadFont("_wendy monospace numbers")..{
 	Name=pn.."Score",
 	InitCommand=function(self)
 		self:valign(1):halign(1)
-		local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
-		local scroll = playeroptions:UsingReverse() and "Reverse" or "Standard"
-		local ypos = {
-			Standard = 56,
-			Reverse = 447,
-		} 
 
 		if SL.Global.GameMode == "StomperZ" then
 			self:zoom(0.4):x( WideScale(160, 214) ):y(20)
@@ -39,18 +33,17 @@ return LoadFont("_wendy monospace numbers")..{
 				self:x( _screen.w - WideScale(50, 104) )
 			end
 		else
+			self:zoom(0.5)
 
-			-- if mods.NPSGraphAtTop and mods.DataVisualizations=="Step Statistics" then
-			--	self:zoom(0.5)
-			--	self:x( player==PLAYER_1 and _screen.w-WideScale(15, center1p and 9 or 67) or WideScale(306, center1p and 280 or 358) )
-			--	self:y( _screen.cy + 40 )
-			-- else
-			self:zoom(0.4)
-			self:x( _screen.cx - 40 ):y(ypos[scroll])
-			if player == PLAYER_2 then
-				self:x( _screen.cx + 150 )
+			if mods.NPSGraphAtTop and mods.DataVisualizations=="Step Statistics" then
+				self:x( player==PLAYER_1 and _screen.w-WideScale(15, center1p and 9 or 67) or WideScale(306, center1p and 280 or 358) )
+				self:y( _screen.cy + 40 )
+			else
+				self:x( _screen.cx - _screen.w/4.3 ):y(56)
+				if player == PLAYER_2 then
+					self:x( _screen.cx + _screen.w/2.75 )
+				end
 			end
-			-- end
 		end
 	end,
 	JudgmentMessageCommand=function(self) self:queuecommand("RedrawScore") end,

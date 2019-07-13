@@ -4,7 +4,7 @@ If you're looking for Simply Love, the Stepmania 5 theme that is widely used, th
 
 For Simply Love, please visit https://github.com/dguzek/Simply-Love-SM5 or click the link near "forked from..." above.
 
-If you have questions, feel free to drop by the #theme-stuff channel on the Stamina Nation discord: http://www.staminanation.com
+If you have questions, feel free to drop by the #theme-stuff channel on the Stamina Nation discord and ping me (@IKA3K): http://www.staminanation.com
 
 ## ! IMPORTANT !
 

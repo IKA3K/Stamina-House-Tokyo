@@ -1,6 +1,10 @@
 local player = ...
 local pn = ToEnumShortString(player)
 
+-- Always reset the offsets for the background, just in case step stats is off.
+SL.Global.BackgroundZoom = 1
+SL.Global.BackgroundYOffset = 0
+
 -- if the conditions aren't right, don't bother
 -- SL[pn].ActiveModifiers.DataVisualizations ~= "Step Statistics"
 -- or GAMESTATE:GetCurrentStyle():GetName() ~= "single"
@@ -17,17 +21,18 @@ return Def.ActorFrame{
 		SL.Global.BackgroundYOffset = -90
 
 		if (PREFSMAN:GetPreference("Center1Player") and IsUsingWideScreen()) then
-
 			-- 16:9 aspect ratio (approximately 1.7778)
 			if GetScreenAspectRatio() > 1.7 then
-				self:x( _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (70 * (player==PLAYER_1 and 1 or -1) ))
+				local xoffset = _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (70 * (player==PLAYER_1 and 1 or -1) )
+				self:x(xoffset)
 				self:zoom(0.925)
-
 			-- if 16:10 aspect ratio
 			else
-				self:x( _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (64 * (player==PLAYER_1 and 1 or -1) ))
+				local xoffset = _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (64 * (player==PLAYER_1 and 1 or -1) )
+				self:x(xoffset)
 				self:zoom(0.825)
 			end
+			SL.Global.BackgroundXOffset = 280
 		else
 			self:x( _screen.w/2)
 		end

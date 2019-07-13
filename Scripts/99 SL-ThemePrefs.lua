@@ -58,11 +58,28 @@ local SL_CustomPrefs =
 		},
 		Values 	= { "none", "single", "versus", "double" }
 	},
+	ShowGradesInMusicWheel =
+	{
+		Default = false,
+		Choices = {
+			THEME:GetString("ThemePrefs", "Show"),
+			THEME:GetString("ThemePrefs", "Hide")
+		},
+		Values = { true, false }
+	},
 	VisualTheme =
 	{
 		Default = "Hearts",
-		 -- emojis are our lingua franca for the 21st century
-		Choices = { "♡", "↖", "🐻", "🦆", "🎃", "🌈", "⭐", "🤔" },
+		Choices = {
+			THEME:GetString("ThemePrefs", "Hearts"),
+			THEME:GetString("ThemePrefs", "Arrows"),
+			THEME:GetString("ThemePrefs", "Bears"),
+			THEME:GetString("ThemePrefs", "Ducks"),
+			THEME:GetString("ThemePrefs", "Spooky"),
+			THEME:GetString("ThemePrefs", "Gay"),
+			THEME:GetString("ThemePrefs", "Stars"),
+			"🤔" -- emojis are our lingua franca for the 21st century
+		},
 		Values  = { "Hearts", "Arrows", "Bears", "Ducks", "Spooky", "Gay", "Stars", "Thonk" },
 	},
 	RainbowMode = {

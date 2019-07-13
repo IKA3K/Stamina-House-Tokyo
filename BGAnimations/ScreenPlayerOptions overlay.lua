@@ -127,7 +127,7 @@ local GetNoteSkinActor = function(ns)
 			InitCommand=function(self) self:visible(false) end
 		}
 	else
-		SM( Screen.String("NoteSkinErrors"):format(ns) )
+		SM("There are Lua errors in your " .. ns .. " NoteSkin.\nYou should fix them, or delete the NoteSkin.")
 
 		return Def.Actor{
 			Name="NoteSkin_"..ns,

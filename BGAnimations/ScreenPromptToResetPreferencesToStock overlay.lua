@@ -63,37 +63,20 @@ local choices_af = Def.ActorFrame{
 	OnCommand=function(self) self:sleep(0.333):linear(0.15):diffusealpha(1) end,
 }
 
-choices_af[#choices_af+1] = Def.ActorFrame{
+choices_af[#choices_af+1] = LoadFont("_wendy small")..{
+	Text=ScreenString("Yes"),
 	InitCommand=function(self)
-		self:xy(_screen.cx-text_width/2, 250):diffuse( PlayerColor(PLAYER_2) )
+		self:xy(_screen.cx-text_width/2, 250):zoom(1.1):diffuse( PlayerColor(PLAYER_2) )
 		choice_actors[0] = self
-	end,
-
-	LoadFont("_wendy small")..{
-		Text=ScreenString("Yes"),
-		InitCommand=function(self) self:zoom(1.1) end
-	},
-	LoadFont("_miso")..{
-		Text=ScreenString("YesInfo"),
-		InitCommand=function(self) self:addy(30):zoom(0.825) end,
-	}
+	end
 }
 
-
-choices_af[#choices_af+1] = Def.ActorFrame{
+choices_af[#choices_af+1] = LoadFont("_wendy small")..{
+	Text=ScreenString("No"),
 	InitCommand=function(self)
 		self:xy(_screen.cx, 250):zoom(0.5)
 		choice_actors[1] = self
-	end,
-
-	LoadFont("_wendy small")..{
-		Text=ScreenString("No"),
-		InitCommand=function(self) end
-	},
-	LoadFont("_miso")..{
-		Text=ScreenString("NoInfo"),
-		InitCommand=function(self) self:addy(30):zoom(0.825)  end,
-	}
+	end
 }
 
 choices_af[#choices_af+1] = LoadFont("_wendy small")..{

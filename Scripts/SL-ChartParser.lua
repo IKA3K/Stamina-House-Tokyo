@@ -116,8 +116,8 @@ local function getStreamMeasures(measuresString, notesPerMeasure)
 
 	-- How many
 
-	-- Loop through each line in our string of measures, trimming potential leading whitespace (thanks, TLOES/Mirage Garden)
-	for line in measuresString:gmatch("[^%s*\r\n]+")
+	-- Loop through each line in our string of measures
+	for line in measuresString:gmatch("[^\r\n]+")
 	do
 		-- If we hit a comma or a semi-colon, then we've hit the end of our measure
 		if(line:match("^[,;]%s*")) then
@@ -131,7 +131,7 @@ local function getStreamMeasures(measuresString, notesPerMeasure)
 			measureCount = measureCount + 1
 			measureNotes = {}
 		else
-			-- increment the measure timing
+			-- Iterate the measure timing
 			measureTiming = measureTiming + 1
 
 			-- Is this a note?
@@ -253,8 +253,8 @@ function GetNPSperMeasure(Song, StepsType, Difficulty)
 	local NPSforThisMeasure, PeakNPS, BPM = 0, 0, 0
 	local TimingData = Song:GetTimingData()
 
-	-- Loop through each line in our string of measures, trimming potential leading whitespace (thanks, TLOES/Mirage Garden)
-	for line in ChartString:gmatch("[^%s*\r\n]+") do
+	-- Loop through each line in our string of measures
+	for line in ChartString:gmatch("[^\r\n]+") do
 
 		-- If we hit a comma or a semi-colon, then we've hit the end of our measure
 		if(line:match("^[,;]%s*")) then

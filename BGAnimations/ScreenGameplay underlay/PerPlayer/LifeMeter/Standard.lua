@@ -2,13 +2,14 @@ local player = ...
 
 local meterFillLength = 136
 local meterFillHeight = 18
-local meterXOffset = _screen.cx + (player==PLAYER_1 and -1 or 1) * WideScale(238, 288)
+-- local meterXOffset = _screen.cx + (player==PLAYER_1 and -1 or 1) * WideScale(238, 288)
+local meterXOffset = _screen.cx + (player==PLAYER_1 and -1 or 1) * WideScale(238, 288 + 84-27)
+
 
 local newBPS, oldBPS
 local swoosh, move
 
 local Update = function(self)
-
 	newBPS = GAMESTATE:GetSongBPS()
 	move = (newBPS*-1)/2
 
@@ -21,8 +22,15 @@ end
 local meter = Def.ActorFrame{
 
 	InitCommand=function(self)
+		local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
+		local scroll = playeroptions:UsingReverse() and "Reverse" or "Standard"
+		local meterYPos = {
+			Standard = 20,
+			Reverse = 20,
+			-- Reverse = 480 - meterFillHeight + 4,
+		} 
 		self:SetUpdateFunction(Update)
-			:y(20)
+			:y(meterYPos[scroll])
 	end,
 
 	-- frame

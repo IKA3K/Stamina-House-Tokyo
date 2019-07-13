@@ -11,7 +11,7 @@ local leadingZeroAttr
 
 local t = Def.ActorFrame{
 	InitCommand=function(self)
-		self:zoom(0.8)
+		self:zoom(0.750)
 	end
 }
 
@@ -33,8 +33,12 @@ for index, window in ipairs(TapNoteScores) do
 			end
 		end,
 		BeginCommand=function(self)
-			self:x( 180 )
-			self:y((index-1)*35 - 282)
+			if player == PLAYER_1 then
+				self:x(-75)
+			else
+				self:x(150)
+			end
+			self:y((index-1)*30 - 100)
 		end,
 		JudgmentMessageCommand=function(self, params)
 			if params.Player ~= player then return end
@@ -53,73 +57,74 @@ for index, window in ipairs(TapNoteScores) do
 end
 
 -- then handle holds, mines, hands, rolls
-for index, RCType in ipairs(RadarCategories) do
-
-	-- player performance value
-	t[#t+1] = LoadFont("_ScreenEvaluation numbers")..{
-		Text="000",
-		InitCommand=cmd(zoom,0.5; horizalign, right),
-		BeginCommand=function(self)
-			self:y((index-1)*35 - 178)
-			self:x( -54 )
-
-			leadingZeroAttr = { Length=2, Diffuse=color("#5A6166") }
-			self:AddAttribute(0, leadingZeroAttr )
-		end,
-		JudgmentMessageCommand=function(self, params)
-			if params.Player ~= player then return end
-			if not params.TapNoteScore then return end
-
-			if RCType=="Mines" and params.TapNoteScore == "TapNoteScore_AvoidMine" then
-				RadarCategoryJudgments.Mines = RadarCategoryJudgments.Mines + 1
-				self:settext( string.format("%03d", RadarCategoryJudgments.Mines) )
-			end
-
-			if RCType=="Holds" and params.TapNote and params.TapNote:GetTapNoteSubType() == "TapNoteSubType_Hold" then
-				RadarCategoryJudgments.Holds = RadarCategoryJudgments.Holds + 1
-				self:settext( string.format("%03d", RadarCategoryJudgments.Holds) )
-			end
-
-			if RCType=="Rolls" and params.TapNote and params.TapNote:GetTapNoteSubType() == "TapNoteSubType_Roll" then
-				RadarCategoryJudgments.Rolls = RadarCategoryJudgments.Rolls + 1
-				self:settext( string.format("%03d", RadarCategoryJudgments.Rolls) )
-			end
-
-			leadingZeroAttr = { Length=(3-tonumber(tostring(RadarCategoryJudgments[RCType]):len())), Diffuse=color("#5A6166") }
-			self:AddAttribute(0, leadingZeroAttr )
-		end
-	}
-
-	--  slash
-	t[#t+1] = LoadFont("_miso")..{
-		Text="/",
-		InitCommand=cmd(diffuse,color("#5A6166"); zoom, 1.25; horizalign, right),
-		BeginCommand=function(self)
-			self:y((index-1)*35 - 178)
-			self:x(-40)
-		end
-	}
-
-	-- possible value
-	t[#t+1] = LoadFont("_ScreenEvaluation numbers")..{
-		InitCommand=cmd(zoom,0.5; horizalign, right),
-		BeginCommand=function(self)
-
-			StepsOrTrail = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(player)) or GAMESTATE:GetCurrentSteps(player)
-			if StepsOrTrail then
-				rv = StepsOrTrail:GetRadarValues(player)
-				possible = rv:GetValue( RCType )
-			else
-				possible = 0
-			end
-
-			self:y((index-1)*35 - 178)
-			self:x( 16 )
-			self:settext( string.format("%03d", possible) )
-			local leadingZeroAttr = { Length=3-tonumber(tostring(possible):len()); Diffuse=color("#5A6166") }
-			self:AddAttribute(0, leadingZeroAttr )
-		end
-	}
-end
+-- for index, RCType in ipairs(RadarCategories) do
+-- 
+-- 	-- player performance value
+-- 	t[#t+1] = LoadFont("_ScreenEvaluation numbers")..{
+-- 		Text="000",
+-- 		InitCommand=cmd(zoom,0.5; horizalign, right),
+-- 		BeginCommand=function(self)
+-- 			self:y((index-1)*35 - 178)
+-- 			self:x( -54 )
+-- 
+-- 			leadingZeroAttr = { Length=2, Diffuse=color("#5A6166") }
+-- 			self:AddAttribute(0, leadingZeroAttr )
+-- 		end,
+-- 		JudgmentMessageCommand=function(self, params)
+-- 			if params.Player ~= player then return end
+-- 			if not params.TapNoteScore then return end
+-- 
+--			if RCType=="Mines" and params.TapNoteScore == "TapNoteScore_AvoidMine" then
+--				RadarCategoryJudgments.Mines = RadarCategoryJudgments.Mines + 1
+--				self:settext( string.format("%03d", RadarCategoryJudgments.Mines) )
+--			end
+--
+--			if RCType=="Holds" and params.TapNote and params.TapNote:GetTapNoteSubType() == "TapNoteSubType_Hold" then
+--				RadarCategoryJudgments.Holds = RadarCategoryJudgments.Holds + 1
+--				self:settext( string.format("%03d", RadarCategoryJudgments.Holds) )
+--			end
+--
+--			if RCType=="Rolls" and params.TapNote and params.TapNote:GetTapNoteSubType() == "TapNoteSubType_Roll" then
+--				RadarCategoryJudgments.Rolls = RadarCategoryJudgments.Rolls + 1
+--				self:settext( string.format("%03d", RadarCategoryJudgments.Rolls) )
+--			end
+--
+--			leadingZeroAttr = { Length=(3-tonumber(tostring(RadarCategoryJudgments[RCType]):len())), Diffuse=color("#5A6166") }
+--			self:AddAttribute(0, leadingZeroAttr )
+--		end
+--	}
+--
+--	--  slash
+--	t[#t+1] = LoadFont("_miso")..{
+--		Text="/",
+--		InitCommand=cmd(diffuse,color("#5A6166"); zoom, 1.25; horizalign, right),
+--		BeginCommand=function(self)
+--			self:y((index-1)*35 - 28)
+--			-- self:x(-40)
+--		end
+--	}
+--
+--	-- possible value
+--	t[#t+1] = LoadFont("_ScreenEvaluation numbers")..{
+--		InitCommand=cmd(zoom,0.5; horizalign, right),
+--		BeginCommand=function(self)
+--
+--			StepsOrTrail = (GAMESTATE:IsCourseMode() and GAMESTATE:GetCurrentTrail(player)) or GAMESTATE:GetCurrentSteps(player)
+--			if StepsOrTrail then
+--				rv = StepsOrTrail:GetRadarValues(player)
+--				possible = rv:GetValue( RCType )
+--			else
+--				possible = 0
+--			end
+--
+--			self:y((index-1)*35 - 28)
+--			-- self:x( 16 )
+--			self:settext( string.format("%03d", possible) )
+--			local leadingZeroAttr = { Length=3-tonumber(tostring(possible):len()); Diffuse=color("#5A6166") }
+--			self:AddAttribute(0, leadingZeroAttr )
+--		end
+--	}
+---end
 
 return t
+

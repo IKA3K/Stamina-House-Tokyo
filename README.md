@@ -13,7 +13,8 @@ The file [Languages/en.ini](https://github.com/IKA3K/Stamina-House-Tokyo/blob/ma
 ## Who is this theme NOT aimed at
 
 1. People who are using a setup with a non-widescreen display. This is a widescreen only setup.
-2. Any other mode other than 4-panel dance. Course mode may fail. Mods will not be tested.
+2. Any other mode other than 4-panel dance. This includes doubles players. Course mode may fail. Mods will not be tested.
+3. People using centered 1-Player mode -- support will be coming in the future but not now.
 
 ## Who is this forked theme aimed at
 

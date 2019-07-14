@@ -17,7 +17,11 @@ local UpdateSingleBPM = function(af)
 	MusicRate = so:MusicRate()
 
 	-- BPM Display
-	bpmDisplay:settext( round(SongPosition:GetCurBPS() * 60 * MusicRate) )
+	local bpm = round(SongPosition:GetCurBPS() * 60 * MusicRate)
+	if PREFSMAN:GetPreference("Center1Player") and #GAMESTATE:GetHumanPlayers() == 1 then
+		bpm = string.format("BPM: %s", bpm )
+	end
+	bpmDisplay:settext( bpm )
 
 	-- MusicRate Display
 	MusicRate = string.format("%.2f", MusicRate )
@@ -85,9 +89,10 @@ local t = Def.ActorFrame{
 
 		if PREFSMAN:GetPreference("Center1Player") and #GAMESTATE:GetHumanPlayers() == 1 then
 			local mpn = GAMESTATE:GetMasterPlayerNumber()
-			if SL[ToEnumShortString(mpn)].ActiveModifiers.NPSGraphAtTop then
-				self:x(_screen.cx + GetNotefieldWidth(mpn) * (mpn==PLAYER_1 and 1 or -1))
-			end
+			self:x(60)  -- Honestly BPM isn't that important for stamina so leave it off to the side
+			-- if SL[ToEnumShortString(mpn)].ActiveModifiers.NPSGraphAtTop then
+			--	self:x(_screen.cx + GetNotefieldWidth(mpn) * (mpn==PLAYER_1 and 1 or -1))
+			-- end
 		end
 
 		self:zoom(SL.Global.GameMode == "StomperZ" and 1 or 1.33)

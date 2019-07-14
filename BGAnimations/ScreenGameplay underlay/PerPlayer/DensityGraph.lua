@@ -5,10 +5,20 @@ if SL[ToEnumShortString(player)].ActiveModifiers.DensityGraph == "Disabled" then
 end
 
 -- local left = WideScale(27,84) + 20
-local left = 27 + 20
+local leftStandard = 27 + 20
+local left = leftStandard
+
 -- local right = _screen.cx - _screen.w/9
-local right = _screen.cx - WideScale(_screen.w/9, _screen.w/9 + 84 - 27)
-local width = right - left
+local rightStandard = _screen.cx - WideScale(_screen.w/9, _screen.w/9 + 84 - 27)
+local right = rightStandard
+
+if #GAMESTATE:GetHumanPlayers() == 1 and PREFSMAN:GetPreference("Center1Player") then
+	-- TODO more center hacks 
+	left = _screen.cx - 95
+	right = left + (rightStandard - leftStandard)
+end
+
+local width = rightStandard - leftStandard
 local height = 30
 
 local SongNumberInCourse = 0

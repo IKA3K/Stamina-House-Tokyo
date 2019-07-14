@@ -4,7 +4,17 @@ local meterFillLength = 136
 local meterFillHeight = 18
 -- local meterXOffset = _screen.cx + (player==PLAYER_1 and -1 or 1) * WideScale(238, 288)
 local meterXOffset = _screen.cx + (player==PLAYER_1 and -1 or 1) * WideScale(238, 288 + 84-27)
+local meterYOffset = 20
 
+-- Compute PLAYER1 center for being just above the background section
+-- TODO make step stats capable of going on the left provided an option
+if player == PLAYER_1 and PREFSMAN:GetPreference("Center1Player") then
+	-- local scroll = playeroptions:UsingReverse() and "Reverse" or "Standard"
+	meterXOffset = _screen.cx + 280  -- TODO Need to standardize this.
+	meterYOffset = 56 -- lol
+	meterFillLength = 240 - 4 -- Need to compensate for border
+	meterFillHeight = 30 - 4	
+end
 
 local newBPS, oldBPS
 local swoosh, move
@@ -25,10 +35,11 @@ local meter = Def.ActorFrame{
 		local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
 		local scroll = playeroptions:UsingReverse() and "Reverse" or "Standard"
 		local meterYPos = {
-			Standard = 20,
-			Reverse = 20,
+			Standard = meterYOffset,
+			Reverse = meterYOffset,
 			-- Reverse = 480 - meterFillHeight + 4,
 		} 
+
 		self:SetUpdateFunction(Update)
 			:y(meterYPos[scroll])
 	end,

@@ -18,7 +18,7 @@ end
 
 -- shared UI elements for both players
 t[#t+1] = LoadActor("./Shared/Header.lua")
-t[#t+1] = LoadActor("./Shared/SongInfoBar.lua") -- title and progress bar
+t[#t+1] = LoadActor("./Shared/SongInfoBar.lua", Players) -- title and progress bar
 
 -- per-player UI elements
 for player in ivalues(Players) do

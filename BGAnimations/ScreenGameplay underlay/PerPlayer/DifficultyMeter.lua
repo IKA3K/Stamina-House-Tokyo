@@ -9,7 +9,11 @@ return Def.ActorFrame{
 			Reverse = 445,
 		} 
 		self:xy( 27, ypos[scroll] )
-		if player == PLAYER_2 then
+		
+		if #GAMESTATE:GetHumanPlayers() == 1 and PREFSMAN:GetPreference("Center1Player") then
+			-- TODO more center hacks 
+			self:x( _screen.cx - 95 - 20 )
+		elseif player == PLAYER_2 then
 			self:x( _screen.w-27 )
 		end
 

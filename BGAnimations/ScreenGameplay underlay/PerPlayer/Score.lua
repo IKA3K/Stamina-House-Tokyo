@@ -47,7 +47,10 @@ return LoadFont("_wendy monospace numbers")..{
 			-- else
 			self:zoom(0.4)
 			self:x( _screen.cx - 40 ):y(ypos[scroll])
-			if player == PLAYER_2 then
+			if #GAMESTATE:GetHumanPlayers() == 1 and PREFSMAN:GetPreference("Center1Player") then
+				-- TODO more center hacks 
+				self:x( _screen.cx - 95 - 20 - 25)
+			elseif player == PLAYER_2 then
 				self:x( _screen.cx + 150 )
 			end
 			-- end

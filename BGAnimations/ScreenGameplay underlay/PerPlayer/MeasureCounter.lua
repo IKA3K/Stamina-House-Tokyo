@@ -89,6 +89,7 @@ local GetTextForCurrentMeasure = function(current_measure, Measures, stream_inde
 	end
 
 	-- TODO rename this function to GetTextAndStyle because this styles the text...
+	local playeroptions = GAMESTATE:GetPlayerState(player):GetPlayerOptions("ModsLevel_Preferred")
 	if Measures[stream_index].isBreak then
 		-- diffuse break counter to be Still Grey, just like Pendulum intended
 		MeasureCounterBMT:diffuse(0.5,0.5,0.5,1)

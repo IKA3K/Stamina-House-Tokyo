@@ -92,6 +92,8 @@ local GetTextForCurrentMeasure = function(current_measure, Measures, stream_inde
 	if Measures[stream_index].isBreak then
 		-- diffuse break counter to be Still Grey, just like Pendulum intended
 		MeasureCounterBMT:diffuse(0.5,0.5,0.5,1)
+	elseif playeroptions:UsingReverse() then
+		MeasureCounterBMT:diffuse(0.75,0.75,0.75,0.75)
 	else
 		MeasureCounterBMT:diffuse(1,1,1,1)
 	end

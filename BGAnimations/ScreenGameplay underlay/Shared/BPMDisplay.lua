@@ -18,9 +18,10 @@ local UpdateSingleBPM = function(af)
 
 	-- BPM Display
 	local bpm = round(SongPosition:GetCurBPS() * 60 * MusicRate)
-	if PREFSMAN:GetPreference("Center1Player") and #GAMESTATE:GetHumanPlayers() == 1 then
-		bpm = string.format("BPM: %s", bpm )
-	end
+	-- TODO For left side rendering only
+	-- if PREFSMAN:GetPreference("Center1Player") and #GAMESTATE:GetHumanPlayers() == 1 then
+	--	bpm = string.format("BPM: %s", bpm )
+	-- end
 	bpmDisplay:settext( bpm )
 
 	-- MusicRate Display
@@ -89,7 +90,11 @@ local t = Def.ActorFrame{
 
 		if PREFSMAN:GetPreference("Center1Player") and #GAMESTATE:GetHumanPlayers() == 1 then
 			local mpn = GAMESTATE:GetMasterPlayerNumber()
-			self:x(60)  -- Honestly BPM isn't that important for stamina so leave it off to the side
+			-- For left side rendering
+			-- self:x(60)  -- Honestly BPM isn't that important for stamina so leave it off to the side
+			-- For right side rendering (place it after score)
+			local scorePosition = _screen.cx + 95 + 20 + 120 -- See Score.lua
+			self:x(scorePosition + 30)
 			-- if SL[ToEnumShortString(mpn)].ActiveModifiers.NPSGraphAtTop then
 			--	self:x(_screen.cx + GetNotefieldWidth(mpn) * (mpn==PLAYER_1 and 1 or -1))
 			-- end

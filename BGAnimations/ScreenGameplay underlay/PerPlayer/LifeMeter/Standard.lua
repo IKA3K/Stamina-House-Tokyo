@@ -10,7 +10,10 @@ local meterYOffset = 20
 -- TODO make step stats capable of going on the left provided an option
 if player == PLAYER_1 and PREFSMAN:GetPreference("Center1Player") then
 	-- local scroll = playeroptions:UsingReverse() and "Reverse" or "Standard"
-	meterXOffset = _screen.cx + 280  -- TODO Need to standardize this.
+	--- TODO this is right side only
+	-- meterXOffset = _screen.cx + 280  -- TODO Need to standardize this.
+	-- left side rendering
+	meterXOffset = _screen.cx - 280  -- TODO Need to standardize this.
 	meterYOffset = 56 -- lol
 	meterFillLength = 240 - 4 -- Need to compensate for border
 	meterFillHeight = 30 - 4	

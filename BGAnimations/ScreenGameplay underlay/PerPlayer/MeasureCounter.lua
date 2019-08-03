@@ -1,6 +1,7 @@
 local player = ...
 local pn = ToEnumShortString(player)
 local mods = SL[pn].ActiveModifiers
+local center1p = PREFSMAN:GetPreference("Center1Player")
 
 -- don't allow MeasureCounter to appear in Casual gamemode via profile settings
 if SL.Global.GameMode == "Casual"
@@ -176,6 +177,11 @@ af[#af+1] = LoadFont("_wendy small")..{
 		local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
 		local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
 		local xOffset = (width/NumColumns)
+		-- TODO make flexible
+		if center1p then
+			xOffset = 0
+		end
+		
 		if player == PLAYER_1 then
 			xPosition = GetNotefieldX(player) - xOffset
 		else
@@ -201,6 +207,10 @@ af[#af+1] = LoadFont("_wendy small")..{
 		local width = GAMESTATE:GetCurrentStyle(player):GetWidth(player)
 		local NumColumns = GAMESTATE:GetCurrentStyle():ColumnsPerPlayer()
 		local xOffset = (width/NumColumns)
+		-- TODO make flexible
+		if center1p then
+			xOffset = 0
+		end
 		if player == PLAYER_1 then
 			xPosition = GetNotefieldX(player) - xOffset
 		else

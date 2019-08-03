@@ -23,16 +23,28 @@ return Def.ActorFrame{
 		if (PREFSMAN:GetPreference("Center1Player") and IsUsingWideScreen()) then
 			-- 16:9 aspect ratio (approximately 1.7778)
 			if GetScreenAspectRatio() > 1.7 then
-				local xoffset = _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (70 * (player==PLAYER_1 and 1 or -1) )
+				-- TODO make this betteV
+				-- for right side rendering
+				-- local xoffset = _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (70 * (player==PLAYER_1 and 1 or -1) )
+				-- for left side rendering
+				local xoffset = GetNotefieldX(player) - 280
 				self:x(xoffset)
 				self:zoom(0.925)
 			-- if 16:10 aspect ratio
 			else
-				local xoffset = _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (64 * (player==PLAYER_1 and 1 or -1) )
+				-- TODO make this betteV
+				-- for right side rendering
+				-- local xoffset = _screen.w/4 * (player==PLAYER_1 and 3 or 1) + (64 * (player==PLAYER_1 and 1 or -1) )
+				-- for left side rendering
+				local xoffset = GetNotefieldX(player) - 280
 				self:x(xoffset)
 				self:zoom(0.825)
 			end
-			SL.Global.BackgroundXOffset = 280
+			-- TODO make this betteV
+			-- for right side rendering
+			-- SL.Global.BackgroundXOffset = 280
+			-- for left side rendering
+			SL.Global.BackgroundXOffset = -280
 		else
 			self:x( _screen.w/2)
 		end

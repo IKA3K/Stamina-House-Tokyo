@@ -115,21 +115,19 @@ if #list > 0 then
 	-- loop through all offsets collected
 	-- take the absolute value (because this offset could be negative)
 	-- and add it to the running measure of total timing error
-	--
-	-- note for the purposes of computing mean, the order doesn't matter
 	for i=1,#list do
-		sum_timing_error = sum_timing_error + math.abs(abs_val_list[i])
+		sum_timing_error = sum_timing_error + abs_val_list[i]
 	end
 
-	-- calculate the avg timing error, rounded to 3 decimals
-	avg_timing_error = round(sum_timing_error/#list,3)
+	-- calculate the avg timing error, rounded to 4 decimals
+	avg_timing_error = round(sum_timing_error/#list,4)
 
 	-- calculate std dev using mean
 	for i=1,#list do
 		standard_deviation = standard_deviation + math.pow(avg_timing_error - abs_val_list[i], 2)
 	end
 	-- keep only 1 decimal place
-	standard_deviation = math.ceil(math.sqrt(standard_deviation / #list) * 10000) / 10000
+	standard_deviation = round(math.sqrt(standard_deviation / #list), 4)
 end
 -- ---------------------------------------------
 

@@ -186,7 +186,7 @@ pane[#pane+1] = Def.BitmapText{
 	Font="_miso",
 	Text=ScreenString("MeanTimingError"),
 	InitCommand=function(self)
-		self:x(40):y(-pane_height+20)
+		self:x(20):y(-pane_height+20)
 			:zoom(0.575)
 	end,
 }
@@ -196,7 +196,7 @@ pane[#pane+1] = Def.BitmapText{
 	Font="_miso",
 	Text=ScreenString("Median"),
 	InitCommand=function(self)
-		self:x(pane_width/2):y(-pane_height+20)
+		self:x(pane_width/4 + 10):y(-pane_height+20)
 			:zoom(0.575)
 	end,
 }
@@ -206,7 +206,27 @@ pane[#pane+1] = Def.BitmapText{
 	Font="_miso",
 	Text=ScreenString("Mode"),
 	InitCommand=function(self)
-		self:x(pane_width-40):y(-pane_height+20)
+		self:x(pane_width/2):y(-pane_height+20)
+			:zoom(0.575)
+	end,
+}
+
+-- Standard Dev Label
+pane[#pane+1] = Def.BitmapText{
+	Font="_miso",
+	Text=ScreenString("StandardDeviation"),
+	InitCommand=function(self)
+		self:x(pane_width/4*3 - 10):y(-pane_height+20)
+			:zoom(0.575)
+	end,
+}
+
+-- 99th %tile label
+pane[#pane+1] = Def.BitmapText{
+	Font="_miso",
+	Text=ScreenString("Percentile99th"),
+	InitCommand=function(self)
+		self:x(pane_width-25):y(-pane_height+20)
 			:zoom(0.575)
 	end,
 }

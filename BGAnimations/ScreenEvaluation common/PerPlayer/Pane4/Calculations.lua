@@ -65,6 +65,9 @@ local highest_offset_count = 0
 local sum_timing_error = 0
 local avg_timing_error = 0
 
+local percentile_error = 0
+local standard_deviation = 0
+
 -- ---------------------------------------------
 -- OKAY, TIME TO CALCULATE MEDIAN, MODE, and AVG TIMING ERROR
 
@@ -84,18 +87,19 @@ end
 -- into an ordered list of offset values
 -- this will make calculating the median very straightforward
 local list = {}
+local abs_val_list = {}
 for offset=-worst_window, worst_window, 0.001 do
 	offset = round(offset,3)
 
 	if offsets[offset] then
 		for i=1,offsets[offset] do
 			list[#list+1] = offset
+			abs_val_list[#abs_val_list+1] = math.abs(offset)
 		end
 	end
 end
 
 if #list > 0 then
-
 	-- calculate median offset
 	if #list % 2 == 1 then
 		median_offset = list[math.ceil(#list/2)]
@@ -103,15 +107,29 @@ if #list > 0 then
 		median_offset = (list[#list/2] + list[#list/2+1])/2
 	end
 
-	-- loop throguh all offsets collected
+	-- calculate 95th pecentile
+	table.sort(abs_val_list)
+	local pct_index = math.ceil(0.95 * #list)
+	percentile_error = abs_val_list[pct_index]
+
+	-- loop through all offsets collected
 	-- take the absolute value (because this offset could be negative)
 	-- and add it to the running measure of total timing error
+	--
+	-- note for the purposes of computing mean, the order doesn't matter
 	for i=1,#list do
-		sum_timing_error = sum_timing_error + math.abs(list[i])
+		sum_timing_error = sum_timing_error + math.abs(abs_val_list[i])
 	end
 
 	-- calculate the avg timing error, rounded to 3 decimals
 	avg_timing_error = round(sum_timing_error/#list,3)
+
+	-- calculate std dev using mean
+	for i=1,#list do
+		standard_deviation = standard_deviation + math.pow(avg_timing_error - abs_val_list[i], 2)
+	end
+	-- keep only 1 decimal place
+	standard_deviation = math.ceil(math.sqrt(standard_deviation / #list) * 10000) / 10000
 end
 -- ---------------------------------------------
 
@@ -182,7 +200,7 @@ af[#af+1] = Def.BitmapText{
 	Font="_miso",
 	Text=(avg_timing_error*1000).."ms",
 	InitCommand=function(self)
-		self:x(40):y(-pane_height+32)
+		self:x(20):y(-pane_height+32)
 			:zoom(0.8)
 	end,
 }
@@ -192,7 +210,7 @@ af[#af+1] = Def.BitmapText{
 	Font="_miso",
 	Text=(median_offset*1000).."ms",
 	InitCommand=function(self)
-		self:x(pane_width/2):y(-pane_height+32)
+		self:x(pane_width/4 + 10):y(-pane_height+32)
 			:zoom(0.8)
 	end,
 }
@@ -202,7 +220,27 @@ af[#af+1] = Def.BitmapText{
 	Font="_miso",
 	Text=(mode_offset*1000).."ms",
 	InitCommand=function(self)
-		self:x(pane_width-40):y(-pane_height+32)
+		self:x(pane_width/2):y(-pane_height+32)
+			:zoom(0.8)
+	end,
+}
+
+-- standard_deviation value
+af[#af+1] = Def.BitmapText{
+	Font="_miso",
+	Text=(standard_deviation*1000).."ms",
+	InitCommand=function(self)
+		self:x(pane_width/4*3 - 10):y(-pane_height+32)
+			:zoom(0.8)
+	end,
+}
+
+-- 95th %tile value
+af[#af+1] = Def.BitmapText{
+	Font="_miso",
+	Text=(percentile_error*1000).."ms",
+	InitCommand=function(self)
+		self:x(pane_width-25):y(-pane_height+32)
 			:zoom(0.8)
 	end,
 }

@@ -224,7 +224,7 @@ pane[#pane+1] = Def.BitmapText{
 -- 99th %tile label
 pane[#pane+1] = Def.BitmapText{
 	Font="_miso",
-	Text=ScreenString("Percentile99th"),
+	Text=ScreenString("Percentile95th"),
 	InitCommand=function(self)
 		self:x(pane_width-25):y(-pane_height+20)
 			:zoom(0.575)

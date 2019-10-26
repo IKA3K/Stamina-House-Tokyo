@@ -124,7 +124,7 @@ if #list > 0 then
 
 	-- calculate std dev using mean
 	for i=1,#list do
-		standard_deviation = standard_deviation + math.pow(avg_timing_error - abs_val_list[i], 2)
+		standard_deviation = standard_deviation + math.pow(avg_timing_error - list[i], 2)
 	end
 	-- keep only 1 decimal place
 	standard_deviation = round(math.sqrt(standard_deviation / #list), 4)

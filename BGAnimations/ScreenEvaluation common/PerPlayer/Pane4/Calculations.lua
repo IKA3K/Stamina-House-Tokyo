@@ -116,7 +116,7 @@ if #list > 0 then
 	-- take the absolute value (because this offset could be negative)
 	-- and add it to the running measure of total timing error
 	for i=1,#list do
-		sum_timing_error = sum_timing_error + abs_val_list[i]
+		sum_timing_error = sum_timing_error + list[i]
 	end
 
 	-- calculate the avg timing error, rounded to 4 decimals
@@ -198,7 +198,7 @@ af[#af+1] = Def.BitmapText{
 	Font="_miso",
 	Text=(avg_timing_error*1000).."ms",
 	InitCommand=function(self)
-		self:x(20):y(-pane_height+32)
+		self:x(25):y(-pane_height+32)
 			:zoom(0.8)
 	end,
 }

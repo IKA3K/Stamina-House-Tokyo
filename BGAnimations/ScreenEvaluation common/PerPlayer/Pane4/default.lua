@@ -186,7 +186,7 @@ pane[#pane+1] = Def.BitmapText{
 	Font="_miso",
 	Text=ScreenString("MeanTimingError"),
 	InitCommand=function(self)
-		self:x(20):y(-pane_height+20)
+		self:x(25):y(-pane_height+20)
 			:zoom(0.575)
 	end,
 }
